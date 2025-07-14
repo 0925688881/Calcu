@@ -1,4 +1,21 @@
-<!DOCTYPE html>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <link rel="apple-touch-icon" href="icon512.png">
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('service-worker.js')
+          .then(reg => console.log("✅ Service Worker 註冊成功"))
+          .catch(err => console.log("❌ Service Worker 註冊失敗", err));
+      });
+    }
+  </script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Helvetica Neue', sans-serif;<!DOCTYPE html>
 <html lang="zh-TW">
 <head>
   <meta charset="UTF-8">
