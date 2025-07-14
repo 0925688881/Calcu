@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <title>吳順發的計算機</title>
-
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#1C1C1E">
@@ -22,75 +21,96 @@
   </script>
 
   <style>
-    /* 原本 CSS 保留 */
-  </style>
-</head>
-</script>
-
-
-
-
-
-  <style>
     * {
       box-sizing: border-box;
       font-family: 'Helvetica Neue', sans-serif;
+      -webkit-user-select: none;
+      user-select: none;
     }
 
-    body {
-      background-color: #1C1C1E;
-      color: white;
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100vw;
+      height: 100vh;
+      touch-action: manipulation;
       display: flex;
       flex-direction: column;
+      justify-content: center;
       align-items: center;
-      justify-content: flex-start;
-      min-height: 100vh;
-      margin: 0;
-      padding: 20px;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    body.light {
+      background-color: #FFFFFF;
+      color: #000000;
+    }
+
+    body.dark {
+      background-color: #1C1C1E;
+      color: #FFFFFF;
     }
 
     h1 {
-      margin-bottom: 20px;
-      font-size: 36px;
-      color: #FFD60A;
+      margin: 10px 0 20px;
+      font-size: 40px;
       text-shadow: 1px 1px 2px black;
       text-align: center;
+      color: inherit;
     }
 
     .calculator {
       width: 100%;
-      max-width: 520px;
+      max-width: 420px;
       border-radius: 20px;
-      padding: 20px;
+      padding: 10px;
       background: #2C2C2E;
       box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      transition: background-color 0.3s;
+    }
+
+    body.light .calculator {
+      background: #EEEEEE;
     }
 
     .display {
       background: #1C1C1E;
       color: white;
-      font-size: 56px;
+      font-size: 64px;
       text-align: right;
-      padding: 25px;
+      padding: 30px 20px;
       border-radius: 10px;
-      margin-bottom: 20px;
       overflow-x: auto;
+    }
+
+    body.light .display {
+      background: #FFFFFF;
+      color: #000000;
     }
 
     .buttons {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 14px;
+      gap: 12px;
     }
 
     button {
-      font-size: 32px;
-      padding: 24px;
+      font-size: 36px;
+      padding: 28px;
       border: none;
-      border-radius: 15px;
+      border-radius: 20px;
       background: #3A3A3C;
       color: white;
       transition: background 0.2s;
+      touch-action: manipulation;
+    }
+
+    body.light button {
+      background: #CCCCCC;
+      color: black;
     }
 
     button.operator {
@@ -109,18 +129,26 @@
       background: #58585B;
     }
 
-    /* 歷史紀錄區 */
+    body.light button:active {
+      background: #999999;
+    }
+
     .history {
       width: 100%;
-      max-width: 520px;
-      margin-top: 30px;
+      max-width: 420px;
+      margin-top: 20px;
       background: #2C2C2E;
       border-radius: 15px;
-      padding: 15px 20px;
+      padding: 12px 18px;
       color: #D1D1D6;
       font-size: 22px;
       box-shadow: 0 4px 20px rgba(0,0,0,0.3);
       overflow-wrap: break-word;
+    }
+
+    body.light .history {
+      background: #EEEEEE;
+      color: #333333;
     }
 
     .history h3 {
@@ -149,29 +177,29 @@
   <div class="calculator">
     <div class="display" id="display">0</div>
     <div class="buttons">
-      <button class="clear" onclick="clearDisplay()">C</button>
-      <button onclick="append('%')">%</button>
-      <button onclick="append('/')">÷</button>
-      <button onclick="backspace()">⌫</button>
+      <button class="clear" onclick="tap('clear')" ontouchstart="return false;">C</button>
+      <button onclick="tap('%')" ontouchstart="return false;">%</button>
+      <button onclick="tap('/')" ontouchstart="return false;">÷</button>
+      <button onclick="tap('backspace')" ontouchstart="return false;">⌫</button>
 
-      <button onclick="append('7')">7</button>
-      <button onclick="append('8')">8</button>
-      <button onclick="append('9')">9</button>
-      <button class="operator" onclick="append('*')">×</button>
+      <button onclick="tap('7')" ontouchstart="return false;">7</button>
+      <button onclick="tap('8')" ontouchstart="return false;">8</button>
+      <button onclick="tap('9')" ontouchstart="return false;">9</button>
+      <button class="operator" onclick="tap('*')" ontouchstart="return false;">×</button>
 
-      <button onclick="append('4')">4</button>
-      <button onclick="append('5')">5</button>
-      <button onclick="append('6')">6</button>
-      <button class="operator" onclick="append('-')">−</button>
+      <button onclick="tap('4')" ontouchstart="return false;">4</button>
+      <button onclick="tap('5')" ontouchstart="return false;">5</button>
+      <button onclick="tap('6')" ontouchstart="return false;">6</button>
+      <button class="operator" onclick="tap('-')" ontouchstart="return false;">−</button>
 
-      <button onclick="append('1')">1</button>
-      <button onclick="append('2')">2</button>
-      <button onclick="append('3')">3</button>
-      <button class="operator" onclick="append('+')">+</button>
+      <button onclick="tap('1')" ontouchstart="return false;">1</button>
+      <button onclick="tap('2')" ontouchstart="return false;">2</button>
+      <button onclick="tap('3')" ontouchstart="return false;">3</button>
+      <button class="operator" onclick="tap('+')" ontouchstart="return false;">+</button>
 
-      <button onclick="append('0')" style="grid-column: span 2;">0</button>
-      <button onclick="append('.')">.</button>
-      <button class="equal" onclick="calculate()">=</button>
+      <button onclick="tap('0')" ontouchstart="return false;" style="grid-column: span 2;">0</button>
+      <button onclick="tap('.')" ontouchstart="return false;">.</button>
+      <button class="equal" onclick="tap('=')" ontouchstart="return false;">=</button>
     </div>
   </div>
 
@@ -180,13 +208,41 @@
     <ul id="historyList"></ul>
   </div>
 
+  <audio id="beep">
+    <source src="data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAESsAACJWAAACABAAZGF0YQgAAAAA//8A//8A//8A//8A//8A" type="audio/wav">
+  </audio>
+
   <script>
     let current = "";
     let resetOnNextInput = false;
     let history = [];
 
+    function playBeep() {
+      const beep = document.getElementById('beep');
+      beep.currentTime = 0;
+      beep.play();
+    }
+
     function updateDisplay() {
       document.getElementById("display").innerText = current || "0";
+    }
+
+    function tap(key) {
+      playBeep();
+      switch(key) {
+        case 'clear':
+          clearDisplay();
+          break;
+        case 'backspace':
+          backspace();
+          break;
+        case '=':
+          calculate();
+          break;
+        default:
+          append(key);
+          break;
+      }
     }
 
     function append(char) {
@@ -237,6 +293,25 @@
         historyList.appendChild(li);
       });
     }
+
+    // 防止雙擊放大
+    let lastTouchEnd = 0;
+    document.addEventListener('touchend', function (event) {
+      let now = (new Date()).getTime();
+      if (now - lastTouchEnd <= 300) {
+        event.preventDefault();
+      }
+      lastTouchEnd = now;
+    }, false);
+
+    // 自動深淺色切換
+    function updateColorMode() {
+      const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      document.body.classList.toggle('dark', isDark);
+      document.body.classList.toggle('light', !isDark);
+    }
+    updateColorMode();
+    window.matchMedia('(prefers-color-scheme: dark)').addListener(updateColorMode);
   </script>
 </body>
 </html>
