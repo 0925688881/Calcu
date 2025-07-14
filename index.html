@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <title>吳順發的計算機</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#1C1C1E">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<link rel="apple-touch-icon" href="icon512.png">
+
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('service-worker.js')
+        .then(reg => console.log("✅ Service Worker 註冊成功"))
+        .catch(err => console.log("❌ Service Worker 註冊失敗", err));
+    });
+  }
+</script>
+
+
+
+
+
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Helvetica Neue', sans-serif;
+    }
+
+    body {
+      background-color: #1C1C1E;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+      font-size: 36px;
+      color: #FFD60A;
+      text-shadow: 1px 1px 2px black;
+      text-align: center;
+    }
+
+    .calculator {
+      width: 100%;
+      max-width: 520px;
+      border-radius: 20px;
+      padding: 20px;
+      background: #2C2C2E;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+    }
+
+    .display {
+      background: #1C1C1E;
+      color: white;
+      font-size: 56px;
+      text-align: right;
+      padding: 25px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      overflow-x: auto;
+    }
+
+    .buttons {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+
+    button {
+      font-size: 32px;
+      padding: 24px;
+      border: none;
+      border-radius: 15px;
+      background: #3A3A3C;
+      color: white;
+      transition: background 0.2s;
+    }
+
+    button.operator {
+      background: #FF9500;
+    }
+
+    button.equal {
+      background: #34C759;
+    }
+
+    button.clear {
+      background: #FF3B30;
+    }
+
+    button:active {
+      background: #58585B;
+    }
+
+    /* 歷史紀錄區 */
+    .history {
+      width: 100%;
+      max-width: 520px;
+      margin-top: 30px;
+      background: #2C2C2E;
+      border-radius: 15px;
+      padding: 15px 20px;
+      color: #D1D1D6;
+      font-size: 22px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+      overflow-wrap: break-word;
+    }
+
+    .history h3 {
+      margin-top: 0;
+      font-size: 24px;
+      color: #FFD60A;
+    }
+
+    .history ul {
+      list-style: none;
+      padding-left: 0;
+      margin: 0;
+    }
+
+    .history li {
+      margin-bottom: 6px;
+      border-bottom: 1px dashed #444;
+      padding-bottom: 4px;
+      word-break: break-all;
+    }
+  </style>
+</head>
+<body>
+  <h1>吳順發的計算機</h1>
+
+  <div class="calculator">
+    <div class="display" id="display">0</div>
+    <div class="buttons">
+      <button class="clear" onclick="clearDisplay()">C</button>
+      <button onclick="append('%')">%</button>
+      <button onclick="append('/')">÷</button>
+      <button onclick="backspace()">⌫</button>
+
+      <button onclick="append('7')">7</button>
+      <button onclick="append('8')">8</button>
+      <button onclick="append('9')">9</button>
+      <button class="operator" onclick="append('*')">×</button>
+
+      <button onclick="append('4')">4</button>
+      <button onclick="append('5')">5</button>
+      <button onclick="append('6')">6</button>
+      <button class="operator" onclick="append('-')">−</button>
+
+      <button onclick="append('1')">1</button>
+      <button onclick="append('2')">2</button>
+      <button onclick="append('3')">3</button>
+      <button class="operator" onclick="append('+')">+</button>
+
+      <button onclick="append('0')" style="grid-column: span 2;">0</button>
+      <button onclick="append('.')">.</button>
+      <button class="equal" onclick="calculate()">=</button>
+    </div>
+  </div>
+
+  <div class="history" id="history">
+    <h3>歷史紀錄</h3>
+    <ul id="historyList"></ul>
+  </div>
+
+  <script>
+    let current = "";
+    let resetOnNextInput = false;
+    let history = [];
+
+    function updateDisplay() {
+      document.getElementById("display").innerText = current || "0";
+    }
+
+    function append(char) {
+      if (resetOnNextInput) {
+        current = "";
+        resetOnNextInput = false;
+      }
+      current += char;
+      updateDisplay();
+    }
+
+    function clearDisplay() {
+      current = "";
+      updateDisplay();
+    }
+
+    function backspace() {
+      if (resetOnNextInput) {
+        current = "";
+        resetOnNextInput = false;
+      } else {
+        current = current.slice(0, -1);
+      }
+      updateDisplay();
+    }
+
+    function calculate() {
+      try {
+        const result = eval(current);
+        const record = `${current} = ${result}`;
+        addToHistory(record);
+        current = result.toString();
+      } catch {
+        current = "錯誤";
+      }
+      updateDisplay();
+      resetOnNextInput = true;
+    }
+
+    function addToHistory(record) {
+      history.unshift(record);
+      if (history.length > 5) history.pop();
+      const historyList = document.getElementById("historyList");
+      historyList.innerHTML = "";
+      history.forEach(item => {
+        const li = document.createElement("li");
+        li.textContent = item;
+        historyList.appendChild(li);
+      });
+    }
+  </script>
+</body>
+</html>
