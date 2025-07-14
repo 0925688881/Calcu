@@ -1,6 +1,6 @@
 const CACHE_NAME = "wuswfa-calculator-v1";
 const FILES_TO_CACHE = [
-  "calculator.html",
+  "index.html",
   "manifest.json",
   "icon512.png"
 ];
