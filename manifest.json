@@ -1,6 +1,6 @@
 {
-  "name": "\u5433\u9806\u767c\u7684\u8a08\u7b97\u6a5f",
-  "short_name": "\u8a08\u7b97\u6a5f",
+  "name": "吳順發計算機",
+  "short_name": "計算機",
   "start_url": "calculator.html",
   "display": "standalone",
   "background_color": "#1C1C1E",
