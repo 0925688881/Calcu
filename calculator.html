@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <title>吳順發的計算機</title>
 
-  <!-- PWA 支援 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#1C1C1E">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -22,10 +22,21 @@
   </script>
 
   <style>
+    /* 原本 CSS 保留 */
+  </style>
+</head>
+</script>
+
+
+
+
+
+  <style>
     * {
       box-sizing: border-box;
       font-family: 'Helvetica Neue', sans-serif;
     }
+
     body {
       background-color: #1C1C1E;
       color: white;
@@ -37,6 +48,7 @@
       margin: 0;
       padding: 20px;
     }
+
     h1 {
       margin-bottom: 20px;
       font-size: 36px;
@@ -44,6 +56,7 @@
       text-shadow: 1px 1px 2px black;
       text-align: center;
     }
+
     .calculator {
       width: 100%;
       max-width: 520px;
@@ -52,6 +65,7 @@
       background: #2C2C2E;
       box-shadow: 0 8px 30px rgba(0,0,0,0.5);
     }
+
     .display {
       background: #1C1C1E;
       color: white;
@@ -62,11 +76,13 @@
       margin-bottom: 20px;
       overflow-x: auto;
     }
+
     .buttons {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 14px;
     }
+
     button {
       font-size: 32px;
       padding: 24px;
@@ -76,11 +92,24 @@
       color: white;
       transition: background 0.2s;
     }
-    button.operator { background: #FF9500; }
-    button.equal { background: #34C759; }
-    button.clear { background: #FF3B30; }
-    button:active { background: #58585B; }
 
+    button.operator {
+      background: #FF9500;
+    }
+
+    button.equal {
+      background: #34C759;
+    }
+
+    button.clear {
+      background: #FF3B30;
+    }
+
+    button:active {
+      background: #58585B;
+    }
+
+    /* 歷史紀錄區 */
     .history {
       width: 100%;
       max-width: 520px;
@@ -93,16 +122,19 @@
       box-shadow: 0 4px 20px rgba(0,0,0,0.3);
       overflow-wrap: break-word;
     }
+
     .history h3 {
       margin-top: 0;
       font-size: 24px;
       color: #FFD60A;
     }
+
     .history ul {
       list-style: none;
       padding-left: 0;
       margin: 0;
     }
+
     .history li {
       margin-bottom: 6px;
       border-bottom: 1px dashed #444;
@@ -113,6 +145,7 @@
 </head>
 <body>
   <h1>吳順發的計算機</h1>
+
   <div class="calculator">
     <div class="display" id="display">0</div>
     <div class="buttons">
@@ -120,34 +153,42 @@
       <button onclick="append('%')">%</button>
       <button onclick="append('/')">÷</button>
       <button onclick="backspace()">⌫</button>
+
       <button onclick="append('7')">7</button>
       <button onclick="append('8')">8</button>
       <button onclick="append('9')">9</button>
       <button class="operator" onclick="append('*')">×</button>
+
       <button onclick="append('4')">4</button>
       <button onclick="append('5')">5</button>
       <button onclick="append('6')">6</button>
       <button class="operator" onclick="append('-')">−</button>
+
       <button onclick="append('1')">1</button>
       <button onclick="append('2')">2</button>
       <button onclick="append('3')">3</button>
       <button class="operator" onclick="append('+')">+</button>
+
       <button onclick="append('0')" style="grid-column: span 2;">0</button>
       <button onclick="append('.')">.</button>
       <button class="equal" onclick="calculate()">=</button>
     </div>
   </div>
+
   <div class="history" id="history">
     <h3>歷史紀錄</h3>
     <ul id="historyList"></ul>
   </div>
+
   <script>
     let current = "";
     let resetOnNextInput = false;
     let history = [];
+
     function updateDisplay() {
       document.getElementById("display").innerText = current || "0";
     }
+
     function append(char) {
       if (resetOnNextInput) {
         current = "";
@@ -156,10 +197,12 @@
       current += char;
       updateDisplay();
     }
+
     function clearDisplay() {
       current = "";
       updateDisplay();
     }
+
     function backspace() {
       if (resetOnNextInput) {
         current = "";
@@ -169,6 +212,7 @@
       }
       updateDisplay();
     }
+
     function calculate() {
       try {
         const result = eval(current);
@@ -181,6 +225,7 @@
       updateDisplay();
       resetOnNextInput = true;
     }
+
     function addToHistory(record) {
       history.unshift(record);
       if (history.length > 5) history.pop();
