@@ -1,4 +1,4 @@
-const CACHE_NAME = "wusf-calculator-v1";
+const CACHE_NAME = "wuswfa-calculator-v1";
 const FILES_TO_CACHE = [
   "calculator.html",
   "manifest.json",
