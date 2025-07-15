@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>順發的計算機</title>
-<link rel="manifest" href="manifest.json">
+  <link rel="manifest" href="manifest.json">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   <meta name="theme-color" content="#1C1C1E">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -30,26 +30,26 @@
     }
     h1 {
       margin: 10px 0 20px;
-      font-size: 40px;
+      font-size: 32px;
       color: #FFD60A;
     }
     .calculator {
-      width: 100%;
-      max-width: 420px;
+      width: 90vw;
+      max-width: 380px;
       border-radius: 20px;
-      padding: 10px;
+      padding: 8px;
       background: #2C2C2E;
-      box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.4);
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 8px;
     }
     .display {
       background: #1C1C1E;
       color: white;
-      font-size: 64px;
+      font-size: 48px;
       text-align: right;
-      padding: 30px 20px;
+      padding: 20px 15px;
       border-radius: 10px;
       overflow-x: auto;
     }
@@ -59,10 +59,10 @@
       gap: 8px;
     }
     button {
-      font-size: 36px;
-      padding: 28px;
+      font-size: 28px;
+      padding: 20px;
       border: none;
-      border-radius: 20px;
+      border-radius: 15px;
       background: #3A3A3C;
       color: white;
       touch-action: manipulation;
@@ -72,20 +72,20 @@
     button.clear { background: #FF3B30; }
     button:active { background: #58585B; }
     .history {
-      width: 100%;
-      max-width: 420px;
-      margin-top: 20px;
+      width: 90vw;
+      max-width: 380px;
+      margin-top: 15px;
       background: #2C2C2E;
       border-radius: 15px;
-      padding: 12px 18px;
+      padding: 10px 15px;
       color: #D1D1D6;
-      font-size: 22px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+      font-size: 18px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
       overflow-wrap: break-word;
     }
     .history h3 {
       margin-top: 0;
-      font-size: 24px;
+      font-size: 20px;
       color: #FFD60A;
     }
     .history ul {
